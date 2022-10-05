@@ -1,9 +1,8 @@
-const express = require('express')
-const profileController = require('../controllers/profileController')
+const express = require("express");
+const profileController = require("../controllers/profileController");
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/',profileController.newProfile)
+router.post("/", profileController.newProfile);
 
-
-module.exports = router
+module.exports = router;

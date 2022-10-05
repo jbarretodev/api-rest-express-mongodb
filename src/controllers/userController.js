@@ -1,56 +1,60 @@
-const userService = require('../services/userService')
+const userService = require("../services/userService");
 
 const saveNewUser = async (req, res) => {
+	const rs = await userService.saveNewUser(req.body);
 
-  const rs = await userService.saveNewUser(req.body)
+	if (rs) return res.status(201).json(rs);
 
-  if(rs) return res.status(201).json(rs)
+	return res.status(400).json({ error: true, message: "some data is missing" });
+};
 
-  return res.status(400).json({error:true,message:"some data is missing"})
-}
+const getAllUsers = async (req, res) => {
+	res.status(200).json(await userService.getAllUser());
+};
 
-const getAllUsers = async (req,res) => {
-  res.status(200).json( await userService.getAllUser() )
-}
+const getOneUser = async (req, res) => {
+	if (!req.params.userId)
+		res.status(400).json({
+			error: true,
+			message: "id user is missing",
+		});
 
-const getOneUser = async (req,res) => {
-  if(!req.params.userId) res.status(400).json({
-    error: true,
-    message: 'id user is missing'
-  })
+	const rs = await userService.getOneUser(req.params.userId);
 
-  const rs = await userService.getOneUser(req.params.userId)
+	if (!rs)
+		return res.status(404).json({ error: true, message: "user not found" });
 
-  if(!rs) return res.status(404).json({error: true, message: 'user not found'})
-
-  return res.status(200).json(rs)
-}
+	return res.status(200).json(rs);
+};
 
 const deleteUser = async (req, res) => {
-  if(!req.params.userId) return res.status(400).json({error: true, message: 'id user is missing'})
+	if (!req.params.userId)
+		return res.status(400).json({ error: true, message: "id user is missing" });
 
-  const rs = await userService.deleteUSer(req.params.userId)
-  
-  if(!rs) return res.status(404).json({error: true, message: 'user not found'})
+	const rs = await userService.deleteUSer(req.params.userId);
 
-  return res.status(204).json({})
-}
+	if (!rs)
+		return res.status(404).json({ error: true, message: "user not found" });
 
-const updateUser = async (req,res) => {
-  if(!req.params.userId) return res.status(400).json({error: true, message: 'id is missing'})
+	return res.status(204).json({});
+};
 
-  const rs = await userService.updateUser(req.params.userId, req.body)
+const updateUser = async (req, res) => {
+	if (!req.params.userId)
+		return res.status(400).json({ error: true, message: "id is missing" });
 
-  if(!rs) return res.status(404).json({error: true, message: 'user not found'})
+	const rs = await userService.updateUser(req.params.userId, req.body);
 
-  return res.status(200).json(rs)
-}
+	if (!rs)
+		return res.status(404).json({ error: true, message: "user not found" });
 
+	return res.status(200).json(rs);
+};
 
 module.exports = {
-  saveNewUser,
-  getOneUser,
-  getAllUsers,
-  deleteUser,
-  updateUser, 
-}
+	saveNewUser,
+	getOneUser,
+	getAllUsers,
+	deleteUser,
+	updateUser,
+};

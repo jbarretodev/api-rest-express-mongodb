@@ -1,14 +1,13 @@
-const express = require('express')
-require('dotenv').config()
+const express = require("express");
+require("dotenv").config();
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/',(req,res) => {
-  res.status(200).json({
-    status: "ok",
-    message:`Api Running on this url: ${process.env.URL}`,
-  })
-})
+router.get("/", (req, res) => {
+	res.status(200).json({
+		status: "ok",
+		message: `Api Running on this url: ${process.env.URL}`,
+	});
+});
 
-
-module.exports = router
+module.exports = router;
