@@ -1,5 +1,6 @@
 const {Schema, model} = require('mongoose')
 const bcrypt = require('bcrypt')
+const Profile = require('./Profile')
 
 const userSchema = new Schema({
   username:{
@@ -10,12 +11,14 @@ const userSchema = new Schema({
   password: {
     required: true,
     type: String,
+    select: false
   },
   email: {
     required: true,
     type: String,
     index: { unique: true },
-  }
+  },
+  profile:{ type: Schema.Types.ObjectId, ref: 'Profile' },
 },{
   timestamps: true,
 })
@@ -25,6 +28,10 @@ userSchema.pre('save', function(next){
   this.password = bcrypt.hashSync(this.password, salt)
   next()
 })
+
+userSchema.methods.getProfile = async () => {
+  return await Profile.find({user: this.id})
+}
 
 userSchema.methods.encryptPassword = async password => {
   const salt = await bcrypt.genSalt(10)

@@ -14,6 +14,12 @@ const profileSchema = new Schema({
     required: true,
   },
   user:{ type: Schema.Types.ObjectId, ref: 'User' },
+  address: {
+    type: String,
+  },
+  phone: { 
+    type: String,
+  }
 },{
   timestamps: true,
 })

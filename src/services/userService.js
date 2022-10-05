@@ -10,13 +10,13 @@ const getOneUser = async(id) => {
 
   const user = await User.findById(id).exec()
 
-  if(user) return user
+  if(user) return user.populate('profile')
 
   return undefined
 }
 
 const getAllUser = async () => {
-  return await User.find()
+  return await User.find().populate('profile')
 }
 
 const deleteUSer = async (id) => {
@@ -27,6 +27,10 @@ const updateUser = async (id,userData) => {
   return await User.findByIdAndUpdate(id,userData)
 }
 
+const setIdProfileToUser = async (profileId,userId) => {
+  return await User.findByIdAndUpdate(userId,{profile:profileId})
+}
+
 
 module.exports = {
   saveNewUser,
@@ -34,4 +38,5 @@ module.exports = {
   getAllUser,
   deleteUSer,
   updateUser,
+  setIdProfileToUser,
 }
