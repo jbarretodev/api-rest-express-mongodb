@@ -11,6 +11,13 @@ const login = async (req, res) => {
 	return res.status(200).json(rs);
 };
 
+const revokeToken = async (req, res) => {
+	await authService.revokeToken(req.headers["authorization"].split(" ").pop());
+
+	res.status(204).json({});
+};
+
 module.exports = {
 	login,
+	revokeToken,
 };

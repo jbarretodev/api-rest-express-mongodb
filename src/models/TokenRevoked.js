@@ -18,4 +18,4 @@ const tokenRevoked = new Schema(
 	}
 );
 
-modile.exports = model("TokenRevoked", tokenRevoked);
+module.exports = model("TokenRevoked", tokenRevoked);
