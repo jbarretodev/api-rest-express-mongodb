@@ -1,5 +1,5 @@
 # Testing Api Express And MongoDB (Mongoose)
-## _Api Rest Using Express as Framework NodeJS and MongoDB (Mongoos)_
+## _Api Rest Using Express as Framework NodeJS and MongoDB (Mongoose)_
 
 ## Installation
 
