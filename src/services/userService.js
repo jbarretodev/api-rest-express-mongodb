@@ -1,4 +1,8 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const dayjs = require("dayjs");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 const saveNewUser = async (dataUser) => {
 	const user = new User(dataUser);
@@ -31,6 +35,32 @@ const setIdProfileToUser = async (profileId, userId) => {
 	return await User.findByIdAndUpdate(userId, { profile: profileId });
 };
 
+const authUser = async (credencials) => {
+	const user = await User.findOne({ email: credencials.email })
+		.select("+password")
+		.exec();
+
+	if (!user) return null;
+
+	if (!(await bcrypt.compare(credencials.password, user.password))) return null;
+
+	const token = jwt.sign(user.toJSON(), process.env.TOKEN_SECRET, {
+		expiresIn: "2h",
+	});
+
+	const refreshToken = jwt.sign(user.toJSON(), process.env.TOKEN_SECRET, {
+		expiresIn: "7d",
+	});
+
+	return {
+		tokenType: "Bearer",
+		expireAt: dayjs().add(2, "h"),
+		token,
+		refreshToken,
+		user: user.toJSON(),
+	};
+};
+
 module.exports = {
 	saveNewUser,
 	getOneUser,
@@ -38,4 +68,5 @@ module.exports = {
 	deleteUSer,
 	updateUser,
 	setIdProfileToUser,
+	authUser,
 };

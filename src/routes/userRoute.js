@@ -4,7 +4,7 @@ const userController = require("../controllers/userController");
 const authenticationMiddleware = require("../controllers/middlewares/authMiddleware");
 
 router
-	.get("/", userController.getAllUsers)
+	.get("/", authenticationMiddleware, userController.getAllUsers)
 	.get("/:userId", userController.getOneUser)
 	.post("/", userController.saveNewUser)
 	.delete("/:userId", userController.deleteUser)
