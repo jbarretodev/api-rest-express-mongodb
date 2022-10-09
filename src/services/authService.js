@@ -7,12 +7,12 @@ const login = async (credencials) => {
 
 const revokeToken = async (token) => {
 	const tokenRevoked = new TokenRevoked({ token });
-	await tokenRevoked.save();
+	return await tokenRevoked.save();
 };
 
 const checkTokenRevoked = async (token) => {
-	return await TokenRevoked.findOne({token})
-}
+	return await TokenRevoked.findOne({ token });
+};
 
 module.exports = {
 	login,
